@@ -40,6 +40,8 @@ interface AppContextType {
   setActiveTab: (tab: string) => void;
   globalSearchQuery: string;
   setGlobalSearchQuery: (q: string) => void;
+  isGlobalSearchOpen: boolean;
+  setIsGlobalSearchOpen: (open: boolean) => void;
   theme: 'light' | 'dark';
   toggleTheme: () => void;
   
@@ -148,8 +150,21 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
   const [activeTab, setActiveTab] = useState<string>('dashboard');
   const [globalSearchQuery, setGlobalSearchQuery] = useState<string>('');
+  const [isGlobalSearchOpen, setIsGlobalSearchOpen] = useState<boolean>(false);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [viewVoucher, setViewVoucher] = useState<Transaction | null>(null);
+
+  // Keyboard shortcut Cmd+K / Ctrl+K
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setIsGlobalSearchOpen(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Entities
   const [members, setMembers] = useState<Member[]>(INITIAL_MEMBERS);
@@ -898,6 +913,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         setActiveTab,
         globalSearchQuery,
         setGlobalSearchQuery,
+        isGlobalSearchOpen,
+        setIsGlobalSearchOpen,
         theme,
         toggleTheme,
         members,

@@ -26,6 +26,8 @@ export default function Navbar() {
     backupData, 
     globalSearchQuery, 
     setGlobalSearchQuery,
+    isGlobalSearchOpen,
+    setIsGlobalSearchOpen,
     setActiveTab
   } = useApp();
 
@@ -54,25 +56,26 @@ export default function Navbar() {
 
           {/* Search Bar */}
           <div className="flex-1 max-w-md mx-4 hidden md:block">
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-4 w-4 text-emerald-300" />
+            <div 
+              onClick={() => setIsGlobalSearchOpen(true)}
+              className="relative cursor-pointer group"
+            >
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-emerald-300 group-hover:text-amber-300 transition-colors">
+                <Search className="h-4 w-4" />
               </div>
               <input
                 type="text"
+                readOnly
                 value={globalSearchQuery}
-                onChange={(e) => setGlobalSearchQuery(e.target.value)}
+                onFocus={() => setIsGlobalSearchOpen(true)}
                 placeholder="Search transactions, members, sectors, accounts..."
-                className="w-full pl-9 pr-4 py-1.5 bg-emerald-950/60 border border-emerald-700/80 rounded-lg text-sm text-white placeholder-emerald-300/70 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all"
+                className="w-full pl-9 pr-14 py-1.5 bg-emerald-950/60 hover:bg-emerald-950/80 border border-emerald-700/80 group-hover:border-amber-400/80 rounded-lg text-sm text-white placeholder-emerald-300/70 focus:outline-none cursor-pointer transition-all"
               />
-              {globalSearchQuery && (
-                <button
-                  onClick={() => setGlobalSearchQuery('')}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-xs text-emerald-300 hover:text-white"
-                >
-                  Clear
-                </button>
-              )}
+              <div className="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none">
+                <kbd className="text-[10px] font-mono bg-emerald-900/90 text-amber-300 border border-emerald-700 px-1.5 py-0.5 rounded shadow-sm">
+                  ⌘K
+                </kbd>
+              </div>
             </div>
           </div>
 

@@ -6,6 +6,7 @@ import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import LoginScreen from '../components/LoginScreen';
 import VoucherSlipModal from '../components/VoucherSlipModal';
+import GlobalSearchModal from '../components/GlobalSearchModal';
 
 import DashboardView from '../components/Dashboard/DashboardView';
 import MembersView from '../components/Members/MembersView';
@@ -85,6 +86,7 @@ function MainApp() {
       </div>
 
       <VoucherSlipModal />
+      <GlobalSearchModal />
     </div>
   );
 }
